@@ -141,6 +141,45 @@ def start():
     start_camera()
     start_preheating()
     canvas.after(1000, read_data_and_update_canvas)
+
+def start2():
+    print("start2")
+    canvas.delete("text")
+    start_camera()
+    start_preheating()
+    canvas.after(1000, read_data_and_update_canvas2)
+
+def read_data_and_update_canvas2():
+    
+    canvas.delete("text")
+    canvas.delete(image_1)
+    canvas.create_image(
+        646.0000000000001,
+        474.0,
+        image=image_image_2
+    )
+    canvas.create_text(
+        755.0000000000001,
+        464.0,
+        anchor="nw",
+        text="Evaluating",
+        fill="#FFFFFF",
+        font=("AlfaSlabOne Regular", 15 * -1),
+        tags=("text",)
+    )
+    
+    new_text = main_copy.get_sensor_data_with_prediction()
+    print(new_text)
+    if new_text:
+
+        new_text = new_text[0]  # Extracting the array from the tuple
+        new_text[0] , new_text[1] ,  new_text[2]  =  new_text[1] , new_text[2] , new_text[0] 
+        # new_text[3] , new_text[4]  =  new_text[4] , new_text[3] 
+        update_canvas_with_new_text(new_text)
+        print(new_text)
+    else:
+        print("Error: new_text list is empty or incomplete.")
+   
     
 
 def read_data_and_update_canvas():
@@ -256,11 +295,23 @@ def update_canvas_with_new_text(new_text):
         tags=("text",)
     )
 
+def toggle_command():
+    global command_toggle
+    if command_toggle == "start":
+        start()
+        command_toggle = "start2"
+    elif command_toggle == "start2":
+        start2()
+        command_toggle = "start2"
+
+# Initialize the command_toggle variable
+command_toggle = "start"
+
 button_1 = Button(
     image=button_image_1,
     borderwidth=0,
     highlightthickness=0,
-    command=start,
+    command=toggle_command,
     relief="flat"
 )
 button_1.place(

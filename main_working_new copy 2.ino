@@ -111,36 +111,6 @@ void readAmmonia() {
   delay(500);
 }
 
-void readPH() {
-  unsigned long int avgValue = 0;
-
-  for (int i = 0; i < numSamples; i++) {
-    sensorValues[i] = analogRead(pH_sensor);
-    delay(10);
-  }
-
-  for (int i = 0; i < numSamples - 1; i++) {
-    for (int j = i + 1; j < numSamples; j++) {
-      if (sensorValues[i] > sensorValues[j]) {
-        int temp = sensorValues[i];
-        sensorValues[i] = sensorValues[j];
-        sensorValues[j] = temp;
-      }
-    }
-  }
-
-  for (int i = 2; i < numSamples - 2; i++) {
-    avgValue += sensorValues[i];
-  }
-
-  float voltage = avgValue * 5.0 / 1024 / (numSamples - 4);
-  float pHValue = -5.70 * voltage + calibration_value;
-
-  Serial.print("pH Value: ");
-  Serial.println(pHValue);
-
-  delay(1000);
-}
 
 void readPH(){
     static unsigned long timepoint = millis();

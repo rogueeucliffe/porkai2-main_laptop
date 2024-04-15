@@ -11,12 +11,16 @@ time.sleep(2)  # Allow some time for Arduino to initialize
 # Function to read sensor values
 def read_sensor_values():
     sensor_values = []
+    sensor_types = set()  # to keep track of collected sensor types
     while len(sensor_values) < 4:
         line = ser.readline().decode().strip()  # Read a line from serial and decode
-        if line.startswith("temp 1:") or line.startswith("pH Value:") or line.startswith("Methane Concentration:") or line.startswith("Ammonia Concentration:"):
-            value = float(line.split(":")[1].strip())  # Extract the sensor value
-            sensor_values.append(value)
-    
+        if (line.startswith("temp 1:") and "temp 1" not in sensor_types or
+            line.startswith("pH Value:") and "pH Value" not in sensor_types or 
+            line.startswith("Methane Concentration:") and "Methane Concentration" not in sensor_types or 
+            line.startswith("Ammonia Concentration:") and "Ammonia Concentration" not in sensor_types):
+            sensor_type, value = line.split(":")  # Extract the sensor type and value
+            sensor_values.append(float(value.strip()))
+            sensor_types.add(sensor_type.strip())
     # Get L* value
     camera.capture_image(1,'test.jpg')
     image = cv2.imread('test.jpg')
@@ -51,7 +55,7 @@ def main():
     sensor_data = read_sensor_values()
 
     # Swap index 4 and 3
-    # sensor_data[3], sensor_data[4] = sensor_data[4], sensor_data[3]
+    sensor_data[3], sensor_data[4] = sensor_data[4], sensor_data[3]
     # Print sensor values as an array
     
     print("Sensor Values:", sensor_data)  
