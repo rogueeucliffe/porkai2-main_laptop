@@ -4,9 +4,35 @@ import cv2
 import numpy as np
 import camera
 
+
 # Open serial connection
-ser = serial.Serial('COM4', 115200)  # Replace 'COM1' with the appropriate port
+ser = serial.Serial('COM3', 115200)  # Replace 'COM1' with the appropriate port
 time.sleep(2)  # Allow some time for Arduino to initialize
+
+
+# Given data
+output_values = np.array([61, 55, 49, 43, 37, 31])
+input_values = np.array(
+    [
+        [1, 203.3367599],
+        [1, 198.6026289],
+        [1, 177.917328],
+        [1, 163.89361],
+        [1, 152.4369501],
+        [1, 138.5136842],
+    ]
+)
+
+# Perform linear regression
+coefficients = np.linalg.lstsq(input_values, output_values, rcond=None)[0]
+
+
+# Define a function for calibration
+def calibrate_input(input_value):
+    # Apply linear transformation
+    calibrated_output = np.dot(np.array([1, input_value]), coefficients)
+    return calibrated_output
+
 
 # Function to read sensor values
 def read_sensor_values():
@@ -31,7 +57,10 @@ def read_sensor_values():
     L_star = get_L_star(image)
     
     # Append L* value to sensor data
+    calibrated_output = calibrate_input(L_star)
+    print(f"Calibrated output for input {L_star}: {calibrated_output + 2}")
     sensor_values.append(L_star)
+    print(L_star)
     
     return sensor_values
 

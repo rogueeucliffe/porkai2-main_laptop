@@ -168,6 +168,7 @@ def read_data_and_update_canvas2():
         tags=("text",)
     )
     
+    # print("Sensor Data with Prediction:", main_copy.sensor_data_with_prediction)
     new_text = main_copy.get_sensor_data_with_prediction()
     print(new_text)
     if new_text:
@@ -176,7 +177,7 @@ def read_data_and_update_canvas2():
         new_text[0] , new_text[1] ,  new_text[2]  =  new_text[1] , new_text[2] , new_text[0] 
         # new_text[3] , new_text[4]  =  new_text[4] , new_text[3] 
         update_canvas_with_new_text(new_text)
-        print(new_text)
+        print(new_text = new_text[4])
     else:
         print("Error: new_text list is empty or incomplete.")
    

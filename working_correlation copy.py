@@ -8,14 +8,16 @@ import joblib
 data = pd.read_excel("your_dataset.xlsx")
 
 # Convert 'Freshness' column to have values of 0 for 'Fresh' and 1 for 'Not Fresh'
-data['Freshness'] = data['Freshness'].replace({'Fresh': 0, 'Not Fresh': 1})
+data["Freshness"] = data["Freshness"].replace({"Fresh": 0, "Not Fresh": 1})
 
 # Split data into features and target variable
-X = data.drop(columns=['Freshness'])
-y = data['Freshness']
+X = data.drop(columns=["Freshness"])
+y = data["Freshness"]
 
 # Split data into training and testing sets
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
 
 # Initialize the logistic regression model
 model = LogisticRegression()
@@ -31,22 +33,22 @@ accuracy = accuracy_score(y_test, y_pred)
 print("Accuracy:", accuracy)
 
 # Save the trained model to disk
-joblib.dump(model, 'logistic_regression_model_new.pkl')
+joblib.dump(model, "logistic_regression_model_new.pkl")
 
-# Now, let's predict the freshness of a new data point
-new_data = [[0.15, 0.08, 6.7, 48]]
+# # Now, let's predict the freshness of a new data point
+# new_data = [[0.15, 0.08, 6.7, 48]]
 
-# Load the saved model from disk
-loaded_model = joblib.load('logistic_regression_model.pkl')
+# # Load the saved model from disk
+# loaded_model = joblib.load('logistic_regression_model.pkl')
 
-# Make prediction using the loaded model
-prediction = loaded_model.predict(new_data)
+# # Make prediction using the loaded model
+# prediction = loaded_model.predict(new_data)
 
-# Print the prediction
-if prediction[0] == 0:
-    print("Prediction for the input data: Fresh")
-else:
-    print("Prediction for the input data: Not Fresh")
+# # Print the prediction
+# if prediction[0] == 0:
+#     print("Prediction for the input data: Fresh")
+# else:
+#     print("Prediction for the input data: Not Fresh")
 
 # Get feature names
 feature_names = X.columns
