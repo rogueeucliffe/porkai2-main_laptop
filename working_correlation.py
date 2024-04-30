@@ -31,7 +31,7 @@ accuracy = accuracy_score(y_test, y_pred)
 print("Accuracy:", accuracy)
 
 # Save the trained model to disk
-joblib.dump(model, 'logistic_regression_model_new.pkl')
+joblib.dump(model, 'logistic_regression_model.pkl')
 
 # Now, let's predict the freshness of a new data point
 new_data = [[0.15, 0.08, 6.7, 48]]

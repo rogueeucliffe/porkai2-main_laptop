@@ -3,7 +3,7 @@
 from pathlib import Path
 import cv2
 from PIL import Image, ImageTk
-import main_copy
+import Freshness_Prediction
 from tkinter import Tk, Canvas, Button, PhotoImage
 
 OUTPUT_PATH = Path(__file__).parent
@@ -27,6 +27,8 @@ def on_click(event):
     start_y = event.y
 
 window = Tk()
+
+
 
 window.geometry("862x519")
 window.configure(bg="#FFB700")
@@ -53,33 +55,33 @@ canvas.create_rectangle(
     fill="#FFFFFF",
     outline="")
 
-image_image_1 = PhotoImage(
-    file=relative_to_assets("image_1.png"))
-image_1 = canvas.create_image(
+image_yellow = PhotoImage(
+    file=relative_to_assets("yellow.png"))
+yellow = canvas.create_image(
     646.0000000000001,
     474.0,
-    image=image_image_1)
+    image=image_yellow)
 
-image_image_2 = PhotoImage(
-    file=relative_to_assets("image_2.png"))
-image_2 = canvas.create_image(
+image_green = PhotoImage(
+    file=relative_to_assets("green.png"))
+green = canvas.create_image(
     646.0000000000001,
     474.0,
-    image=image_image_2)
+    image=image_green)
 
-image_image_3 = PhotoImage(
-    file=relative_to_assets("image_3.png"))
-image_3 = canvas.create_image(
+image_red = PhotoImage(
+    file=relative_to_assets("red.png"))
+red = canvas.create_image(
     646.0000000000001,
     474.0,
-    image=image_image_3)
+    image=image_red)
 
-image_image_4 = PhotoImage(
-    file=relative_to_assets("image_4.png"))
-image_4 = canvas.create_image(
+image_Group_8 = PhotoImage(
+    file=relative_to_assets("Group_8.png"))
+Group_8 = canvas.create_image(
     730.0000000000001,
     398.0,
-    image=image_image_4)
+    image=image_Group_8)
 
 image_image_5 = PhotoImage(
     file=relative_to_assets("image_5.png"))
@@ -103,12 +105,12 @@ image_6 = canvas.create_image(
     474.0,
     image=image_image_6)
 
-image_image_7 = PhotoImage(
-    file=relative_to_assets("image_7.png"))
-image_7 = canvas.create_image(
+image_Group_9 = PhotoImage(
+    file=relative_to_assets("Group_9.png"))
+Group_9 = canvas.create_image(
     216.0000000000001,
     260.0,
-    image=image_image_7)
+    image=image_Group_9)
 
 button_image_1 = PhotoImage(
     file=relative_to_assets("button_1.png"))
@@ -168,16 +170,16 @@ def read_data_and_update_canvas2():
         tags=("text",)
     )
     
-    # print("Sensor Data with Prediction:", main_copy.sensor_data_with_prediction)
-    new_text = main_copy.get_sensor_data_with_prediction()
+    # print("Sensor Data with Prediction:", Freshness_Prediction.sensor_data_with_prediction)
+    new_text = Freshness_Prediction.get_sensor_data_with_prediction()
     print(new_text)
     if new_text:
 
         new_text = new_text[0]  # Extracting the array from the tuple
-        new_text[0] , new_text[1] ,  new_text[2]  =  new_text[1] , new_text[2] , new_text[0] 
-        # new_text[3] , new_text[4]  =  new_text[4] , new_text[3] 
+        # new_text[0] , new_text[1] ,  new_text[2]  =  new_text[1] , new_text[2] , new_text[0] 
+        new_text[2] , new_text[3]=  new_text[3] , new_text[2]
         update_canvas_with_new_text(new_text)
-        print(new_text = new_text[4])
+        
     else:
         print("Error: new_text list is empty or incomplete.")
    
@@ -202,11 +204,12 @@ def read_data_and_update_canvas():
         tags=("text",)
     )
     
-    new_text = main_copy.get_sensor_data_with_prediction()
+    new_text = Freshness_Prediction.get_sensor_data_with_prediction()
     print(new_text)
     if new_text:
 
         new_text = new_text[0]  # Extracting the array from the tuple
+        new_text[2] , new_text[3]=  new_text[3] , new_text[2]
 
         update_canvas_with_new_text(new_text)
         print(new_text)

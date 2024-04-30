@@ -1,10 +1,10 @@
-# main_copy.py
+# Freshness_Prediction.py
 
 import pandas as pd
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 import joblib
-import sensor_read
+import Run_sensors
 
 def load_dataset(file_path, feature_names):
     data = pd.read_excel(file_path)
@@ -37,8 +37,8 @@ def predict_freshness(sensor_data, model):
     return sensor_data_with_prediction
 
 def get_sensor_data_with_prediction():
-    sensor_data = sensor_read.read_sensor_values()
-    loaded_model = load_saved_model('logistic_regression_model.pkl')
+    sensor_data = Run_sensors.read_sensor_values()
+    loaded_model = load_saved_model('build\logistic_regression_model_new.pkl')
     prediction = predict_freshness(sensor_data, loaded_model)
     return prediction,
 
@@ -48,9 +48,9 @@ def main():
     model = train_model(X, y)
     accuracy = evaluate_model(model, X, y)
     print("Accuracy on training data:", accuracy)
-    save_model(model, 'logistic_regression_model.pkl')
-    sensor_data = sensor_read.read_sensor_values()
-    loaded_model = load_saved_model('logistic_regression_model.pkl')
+    save_model(model, 'build\logistic_regression_model_new.pkl')
+    sensor_data = Run_sensors.read_sensor_values()
+    loaded_model = load_saved_model('build\logistic_regression_model_new.pkl')
     sensor_data_with_prediction = predict_freshness(sensor_data, loaded_model)
     print("Sensor Data with Prediction:", sensor_data_with_prediction)
 

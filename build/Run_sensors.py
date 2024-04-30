@@ -6,7 +6,7 @@ import camera
 
 
 # Open serial connection
-ser = serial.Serial('COM3', 115200)  # Replace 'COM1' with the appropriate port
+ser = serial.Serial('COM4', 115200)  # Replace 'COM1' with the appropriate port
 time.sleep(2)  # Allow some time for Arduino to initialize
 
 
@@ -40,8 +40,8 @@ def read_sensor_values():
     sensor_types = set()  # to keep track of collected sensor types
     while len(sensor_values) < 4:
         line = ser.readline().decode().strip()  # Read a line from serial and decode
-        if (line.startswith("temp 1:") and "temp 1" not in sensor_types or
-            line.startswith("pH Value:") and "pH Value" not in sensor_types or 
+        if (line.startswith("Temperature Sensor 1:") and "Temperature Sensor 1" not in sensor_types or
+            line.startswith("pH value:") and "pH value" not in sensor_types or 
             line.startswith("Methane Concentration:") and "Methane Concentration" not in sensor_types or 
             line.startswith("Ammonia Concentration:") and "Ammonia Concentration" not in sensor_types):
             sensor_type, value = line.split(":")  # Extract the sensor type and value
@@ -49,7 +49,7 @@ def read_sensor_values():
             sensor_types.add(sensor_type.strip())
     # Get L* value
     camera.capture_image(1,'test.jpg')
-    image = cv2.imread('test.jpg')
+    image = cv2.imread('test2.jpg')
     if image is None:
         print("Error loading image")
         return sensor_values
@@ -57,9 +57,12 @@ def read_sensor_values():
     L_star = get_L_star(image)
     
     # Append L* value to sensor data
+    # calibrated_output = calibrate_input(L_star + 17)
     calibrated_output = calibrate_input(L_star)
-    print(f"Calibrated output for input {L_star}: {calibrated_output + 2}")
-    sensor_values.append(L_star)
+    # print(f"Calibrated output for input {L_star}: {calibrated_output + 2}")
+    # sensor_values.append(calibrated_output + 2)
+    print(f"Calibrated output for input {L_star}: {calibrated_output}")
+    sensor_values.append(calibrated_output)
     print(L_star)
     
     return sensor_values
@@ -73,6 +76,8 @@ def get_L_star(image):
     
     # calculating the average L* value
     L_mean = np.mean(L)
+
+    L_mean = L_mean + 67
     
     return L_mean
 

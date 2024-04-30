@@ -45,11 +45,11 @@ void setup() {
 // Main loop
 void loop() {
   Ammonia();
-  delay(200); //
+  delay(2000); //
   methane();
-  delay(200); //
+  delay(2000); //
   ph();
-  delay(200); //
+  delay(1000); //
   temp();
   delay(200); //
   led(redPin);
