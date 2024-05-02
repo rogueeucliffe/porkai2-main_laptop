@@ -55,33 +55,33 @@ canvas.create_rectangle(
     fill="#FFFFFF",
     outline="")
 
-image_yellow = PhotoImage(
-    file=relative_to_assets("yellow.png"))
-yellow = canvas.create_image(
+image_image_1 = PhotoImage(
+    file=relative_to_assets("image_1.png"))
+image_1 = canvas.create_image(
     646.0000000000001,
     474.0,
-    image=image_yellow)
+    image=image_image_1)
 
-image_green = PhotoImage(
-    file=relative_to_assets("green.png"))
-green = canvas.create_image(
+image_image_2 = PhotoImage(
+    file=relative_to_assets("image_2.png"))
+image_2 = canvas.create_image(
     646.0000000000001,
     474.0,
-    image=image_green)
+    image=image_image_2)
 
-image_red = PhotoImage(
-    file=relative_to_assets("red.png"))
-red = canvas.create_image(
+image_image_3 = PhotoImage(
+    file=relative_to_assets("image_3.png"))
+image_3 = canvas.create_image(
     646.0000000000001,
     474.0,
-    image=image_red)
+    image=image_image_3)
 
-image_Group_8 = PhotoImage(
-    file=relative_to_assets("Group_8.png"))
-Group_8 = canvas.create_image(
+image_image_4 = PhotoImage(
+    file=relative_to_assets("image_4.png"))
+image_4 = canvas.create_image(
     730.0000000000001,
     398.0,
-    image=image_Group_8)
+    image=image_image_4)
 
 image_image_5 = PhotoImage(
     file=relative_to_assets("image_5.png"))
@@ -105,12 +105,12 @@ image_6 = canvas.create_image(
     474.0,
     image=image_image_6)
 
-image_Group_9 = PhotoImage(
-    file=relative_to_assets("Group_9.png"))
-Group_9 = canvas.create_image(
+image_image_7 = PhotoImage(
+    file=relative_to_assets("image_7.png"))
+image_7 = canvas.create_image(
     216.0000000000001,
     260.0,
-    image=image_Group_9)
+    image=image_image_7)
 
 button_image_1 = PhotoImage(
     file=relative_to_assets("button_1.png"))
@@ -142,7 +142,7 @@ def start():
     canvas.delete("text")
     start_camera()
     start_preheating()
-    canvas.after(1000, read_data_and_update_canvas)
+    canvas.after(1200000, read_data_and_update_canvas)
 
 def start2():
     print("start2")

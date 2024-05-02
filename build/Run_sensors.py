@@ -6,20 +6,28 @@ import camera
 
 
 # Open serial connection
-ser = serial.Serial('COM4', 115200)  # Replace 'COM1' with the appropriate port
+ser = serial.Serial('COM3', 115200)  # Replace 'COM1' with the appropriate port
 time.sleep(2)  # Allow some time for Arduino to initialize
 
 
 # Given data
-output_values = np.array([61, 55, 49, 43, 37, 31])
+output_values = np.array([49, 49, 55, 55, 55, 55, 55, 55, 61, 61, 61, 61, 61])
 input_values = np.array(
     [
-        [1, 203.3367599],
-        [1, 198.6026289],
-        [1, 177.917328],
-        [1, 163.89361],
-        [1, 152.4369501],
-        [1, 138.5136842],
+        [1, 103],
+        [1, 116],
+        [1, 118],
+        [1, 123],
+        [1, 124],
+        [1, 126],
+        [1, 129],
+        [1, 130],
+        [1, 132],
+        [1, 136],
+        [1, 140],
+        [1, 141],
+        [1, 147],
+
     ]
 )
 
@@ -36,10 +44,23 @@ def calibrate_input(input_value):
 
 # Function to read sensor values
 def read_sensor_values():
+    # sensor_values = []
+    # sensor_types = set()  # to keep track of collected sensor types
+    # while len(sensor_values) < 4:
+    #     line = ser.readline().decode().strip()  # Read a line from serial and decode
+    #     if (line.startswith("Temperature Sensor 1:") and "Temperature Sensor 1" not in sensor_types or
+    #         line.startswith("pH value:") and "pH value" not in sensor_types or 
+    #         line.startswith("Methane Concentration:") and "Methane Concentration" not in sensor_types or 
+    #         line.startswith("Ammonia Concentration:") and "Ammonia Concentration" not in sensor_types):
+    #         sensor_type, value = line.split(":")  # Extract the sensor type and value
+    #         sensor_values.append(float(value.strip()))
+    #         sensor_types.add(sensor_type.strip())
+
     sensor_values = []
     sensor_types = set()  # to keep track of collected sensor types
     while len(sensor_values) < 4:
         line = ser.readline().decode().strip()  # Read a line from serial and decode
+        print("Received line:", line)  # Add this line to print the received line
         if (line.startswith("Temperature Sensor 1:") and "Temperature Sensor 1" not in sensor_types or
             line.startswith("pH value:") and "pH value" not in sensor_types or 
             line.startswith("Methane Concentration:") and "Methane Concentration" not in sensor_types or 
@@ -47,9 +68,12 @@ def read_sensor_values():
             sensor_type, value = line.split(":")  # Extract the sensor type and value
             sensor_values.append(float(value.strip()))
             sensor_types.add(sensor_type.strip())
+        else:
+            print("Skipping line:", line)  # Add this line to print the skipped line
+        print("Current sensor types:", sensor_types)  # Add this line to print the current sensor types
     # Get L* value
     camera.capture_image(1,'test.jpg')
-    image = cv2.imread('test2.jpg')
+    image = cv2.imread('test.jpg')
     if image is None:
         print("Error loading image")
         return sensor_values
@@ -77,7 +101,7 @@ def get_L_star(image):
     # calculating the average L* value
     L_mean = np.mean(L)
 
-    L_mean = L_mean + 67
+    L_mean = L_mean - 12
     
     return L_mean
 
@@ -87,6 +111,8 @@ def main():
     
     # Read sensor values
     sensor_data = read_sensor_values()
+
+    print("Sensor Values:", sensor_data) 
 
     # Swap index 4 and 3
     sensor_data[3], sensor_data[4] = sensor_data[4], sensor_data[3]
