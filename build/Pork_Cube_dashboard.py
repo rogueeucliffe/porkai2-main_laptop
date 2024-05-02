@@ -177,7 +177,7 @@ def read_data_and_update_canvas2():
 
         new_text = new_text[0]  # Extracting the array from the tuple
         # new_text[0] , new_text[1] ,  new_text[2]  =  new_text[1] , new_text[2] , new_text[0] 
-        new_text[2] , new_text[3]=  new_text[3] , new_text[2]
+        # new_text[2] , new_text[3]=  new_text[3] , new_text[2]
         update_canvas_with_new_text(new_text)
         
     else:
